@@ -1,0 +1,38 @@
+{
+  "name": "angular-example",
+  "version": "0.0.0",
+  "main": "server/app.js",
+  "dependencies": {
+    "basic-auth": "^1.0.4",
+    "body-parser": "^1.18.2",
+    "composable-middleware": "^0.3.0",
+    "compression": "~1.6.1",
+    "connect-livereload": "^0.6.0",
+    "cookie-parser": "~1.4.1",
+    "ejs": "~2.4.1",
+    "errorhandler": "~1.4.3",
+    "express": "^4.16.2",
+    "express-session": "~1.13.0",
+    "lodash": "~4.11.1",
+    "method-override": "~2.3.5",
+    "mongoose": "^4.13.0",
+    "morgan": "~1.7.0",
+    "moviedb": "^0.2.4",
+    "nedb": "^1.8.0",
+    "serve-favicon": "~2.3.0",
+    "serve-index": "^1.7.2",
+    "xml": "^1.0.1"
+  },
+  "devDependencies": {
+    "open": "~0.0.4",
+    "requirejs": "~2.2.0",
+    "supertest": "~1.2.0"
+  },
+  "engines": {
+    "node": ">=5.0.0"
+  },
+  "scripts": {
+    "start": "node server/app.js"
+  },
+  "private": true
+}
