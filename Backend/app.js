@@ -21,10 +21,8 @@ require('./models/team.js');
 app.use(require('./routes/index'));
 
 var router=express.Router();
-
-
 app.use(router);
 
 app.listen(port, () => {
-  console.log('We are live on ' + port);
+    console.log('We are live on ' + port);
 });

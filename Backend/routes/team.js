@@ -4,28 +4,29 @@ var Team = mongoose.model('Team');
 
 var ObjectId = mongoose.Types.ObjectId;
 
-
 //Insert new team
 router.post('/', (req, res, next) => {
     let stadium=req.body.stadium;
     let name=req.body.name;
     let points =req.body.points;
+
     var team = new Team({
         name: name,
         stadium: stadium,
         points: points,
     });
+
     team.save();
-    res.send("post client:"+stadium+" - name:"+name+team.name);
+    res.send("Team submitted \n" + team);
   });
 
 //Return all teams
 router.get('/', (req, res, next)=> {
     Team.find({}).then(teams =>{
-        if(!teams){return res.sendStatus(401);}
+        if(!teams) {return res.sendStatus(401);}
         return res.json({'teams': teams})
-})
-.catch(next);
+    })
+    .catch(next);
 });
 
 
@@ -46,7 +47,6 @@ router.put('/:id', (req, res, next) =>{
             res.send(team);                
         }
     });
-
 })
 
 module.exports=router;
