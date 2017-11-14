@@ -33,6 +33,21 @@ router.get('/', (req, res, next)=> {
     .catch(next);
 });
 
+//Find one event by ID
+router.get('/:idEvent', (req, res, next) => {
+    let idEvent = req.params.idEvent;
+
+    Event.findById(idEvent, (err, event) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        if (event) {
+            res.status(200).send(event);
+        } else {
+            res.status(404).send("No event found with that ID");
+        }
+    });
+});
 
 //Update event
 router.put('/:id', (req, res, next) =>{
@@ -43,14 +58,32 @@ router.put('/:id', (req, res, next) =>{
     let time = req.body.time;
     let description = req.body.description;
 
-    Team.findOneAndUpdate(query, {$set: {type: type, player: player, player2: player2, time: time, description: description}},{new: true},function(err, team){
+    Event.findOneAndUpdate(query, {$set: {type: type, player: player, player2: player2, time: time, description: description}},{new: true},function(err, event){
         if(err){
             res.send("got an error");
         }
         else{
-            res.send(team);                
+            res.send(event);                
         }
     });
 })
+
+//Delete one Team
+router.delete('/:id', (req, res, next) =>{
+    let id = req.params.id;
+
+    Event.findByIdAndRemove(id, (err, event)=>{
+        if(err){
+            res.status(500).send(err);
+        }
+        else{
+            let response = {
+                message: "Event successfully deleted",
+                id: event._id
+            };
+            res.status(200).send(response);
+        }
+    });
+});
 
 module.exports=router;

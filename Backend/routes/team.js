@@ -29,6 +29,21 @@ router.get('/', (req, res, next)=> {
     .catch(next);
 });
 
+//Find one team by ID
+router.get('/:idTeam', (req, res, next) => {
+    let idTeam = req.params.idTeam;
+
+    Team.findById(idTeam, (err, team) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        if (team) {
+            res.status(200).send(team);
+        } else {
+            res.status(404).send("No team found with that ID");
+        }
+    });
+});
 
 //Update Team
 //Lo hice por ID porque por Name no me funcionaba, creo que el campo tiene que ser declarado como unique para poder
@@ -48,5 +63,23 @@ router.put('/:id', (req, res, next) =>{
         }
     });
 })
+
+//Delete one Team
+router.delete('/:id', (req, res, next) =>{
+    let id = req.params.id;
+
+    Team.findByIdAndRemove(id, (err, team)=>{
+        if(err){
+            res.status(500).send(err);
+        }
+        else{
+            let response = {
+                message: "Team successfully deleted",
+                id: team._id
+            };
+            res.status(200).send(response);
+        }
+    });
+});
 
 module.exports=router;
