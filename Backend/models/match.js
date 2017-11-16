@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
     date: {type: Date, required: true},
     result: {type: String},
+    state: {type: String, required: true},
     stadium: {type: String, required: true},
     team1: {type: Schema.Types.ObjectId, ref: 'Team'},
     team2: {type: Schema.Types.ObjectId, ref: 'Team'},
