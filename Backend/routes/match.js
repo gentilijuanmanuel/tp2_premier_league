@@ -32,13 +32,14 @@ router.get('/', (req, res, next) => {
 });
 
 //select matches ended
-//Suponemos que el estado del partido es "active"
+//Suponemos que el estado del partido es "Playing"
 router.get('/active', (req, res, next) => {
     Event.find({ 'state':'Playing' }).then(match => {
         if (!match) { return res.sendStatus(401); }
         return res.json({ 'match': match })
     })
         .catch(next);
+});
 
 //Create Match
 /*
