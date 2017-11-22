@@ -21,6 +21,23 @@ router.get('/:idMatch', (req, res, next) => {
     });
 });
 
+//Select all matches
+router.get('/', (req, res, next) => {
+    Event.find({}).then(match => {
+        if (!match) { return res.sendStatus(401); }
+        return res.json({ 'match': match })
+    })
+        .catch(next);
+});
 
+//select matches ended
+//Suponemos que el estado del partido es "active"
+router.get('/active', (req, res, next) => {
+    Event.find({ 'state':'Playing' }).then(match => {
+        if (!match) { return res.sendStatus(401); }
+        return res.json({ 'match': match })
+    })
+        .catch(next);
+});
 
 module.exports=router;
