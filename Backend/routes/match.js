@@ -21,6 +21,59 @@ router.get('/:idMatch', (req, res, next) => {
     });
 });
 
+//Create Match
+/*
+ *  States: Not Started -> Playing -> Finished
+ */
+router.post('/', (req, res, next) => {
+    let date = req.body.date;
+    let team1=req.body.team1;
+    let team2=req.body.team2;
+    let stadium =req.body.stadium;
+    let state = "Not Started";
 
+    var match = new Match({
+        date: date,
+        state: state,
+        stadium: stadium,
+        team1: team1,
+        team2: team2
+    });
+
+    match.save();
+    res.send("Match submitted \n" + match);
+  });
+
+//End Match
+/*
+ * State: Finished.
+ */
+router.get('/end/:id', (req, res, next) => {
+    let _id = req.params.id;
+
+    Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, team){
+        if(err){
+            res.send("got an error");
+        }
+        else{
+            res.send(match);                
+        }
+    });
+});
+
+//Add Event
+router.post('/event/', (req, res, next) => {
+    let idMatch = req.params.idMatch;
+    let idEvent = req.params.idEvent;
+    Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, team){
+        if(err){
+            res.send("got an error");
+        }
+        else{
+            res.send(match);                
+        }
+    });
+
+});
 
 module.exports=router;
