@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+/*
+ *  States: Not Started -> Playing -> Finished
+ */
+
 var schema = new Schema({
     date: {type: Date, required: true},
     result: {type: String},
