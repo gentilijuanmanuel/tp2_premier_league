@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
  */
 
 var schema = new Schema({
-    date: {type: Date, required: true},
+    date: {type: String, required: true}, //cambio para que funcione
     result: {type: String},
     state: {type: String, required: true},
     stadium: {type: String, required: true},

@@ -4,6 +4,14 @@ var Match = mongoose.model('Match');
 
 var ObjectId = mongoose.Types.ObjectId;
 
+//Return all matches
+router.get('/', (req, res, next)=> {
+    Match.find({}).then(matches =>{
+        if(!matches) {return res.sendStatus(401);}
+        return res.json(matches)
+    })
+    .catch(next);
+});
 
 //Deberia funcionar, hay que testear una vez que tengamos el alta de partidos y pueda insertar un registro
 router.get('/:idMatch', (req, res, next) => {
