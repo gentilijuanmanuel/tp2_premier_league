@@ -23,7 +23,6 @@ router.get('/', (req, res, next)=> {
 
 
 //Deberia funcionar, hay que testear una vez que tengamos el alta de partidos y pueda insertar un registro
-//.findOne([query], [fieldsToReturn], [callback])
 router.get('/:idMatch', (req, res, next) => {
     let idMatch = req.params.idMatch;
     console.log(idMatch);
