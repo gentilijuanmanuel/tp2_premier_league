@@ -17,7 +17,7 @@ router.get('/', (req, res, next)=> {
 router.get('/:idMatch', (req, res, next) => {
     let idMatch = req.params.idMatch;
     console.log(idMatch);
-    Match.findById(idMatch).populate('event').exec((err, match) => {
+    Match.findById(idMatch).populate('event').populate('team1').populate('team2').exec((err, match) => {
         if (err) {
             res.status(500).send(err);
         }
