@@ -90,17 +90,19 @@ router.get('/end/:id', (req, res, next) => {
 });
 
 //Add Event
-router.post('/event/', (req, res, next) => {
-    let idMatch = req.params.idMatch;
-    let idEvent = req.params.idEvent;
-    Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, team){
+router.put('/event/', (req, res, next) => {
+    let idMatch = req.body.idMatch;
+    let idEvent = req.body.idEvent;
+    Match.findOneAndUpdate(idMatch, {$push: {"event": idEvent}},{new: true},function(err, team){
         if(err){
-            res.send("got an error");
+            res.send("got an error " + err);
         }
         else{
-            res.send(match);                
+            res.send(team);                
+            console.log(idEvent);
         }
     });
+
 });
 
 module.exports=router;
