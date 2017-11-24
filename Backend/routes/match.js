@@ -5,13 +5,22 @@ var Match = mongoose.model('Match');
 var ObjectId = mongoose.Types.ObjectId;
 
 //Return all matches
+// router.get('/', (req, res, next)=> {
+//     Match.find({}).then(matches =>{
+//         if(!matches) {return res.sendStatus(401);}
+//         return res.json(matches)
+//     })
+//     .catch(next);
+// });
+
 router.get('/', (req, res, next)=> {
-    Match.find({}).then(matches =>{
-        if(!matches) {return res.sendStatus(401);}
-        return res.json(matches)
+    Match.find({}).populate('team1').populate('team2').then(matches =>{
+        if (!matches) { return res.sendStatus(401); }
+        return res.json(matches) 
     })
     .catch(next);
 });
+
 
 //Deberia funcionar, hay que testear una vez que tengamos el alta de partidos y pueda insertar un registro
 //.findOne([query], [fieldsToReturn], [callback])
@@ -67,14 +76,14 @@ router.get('/:idMatch', (req, res, next) => {
 });
 
 
-//Select all matches
-router.get('/', (req, res, next) => {
-    Event.find({}).then(match => {
-        if (!match) { return res.sendStatus(401); }
-        return res.json({ 'match': match })
-    })
-        .catch(next);
-});
+// //Select all matches
+// router.get('/', (req, res, next) => {
+//     Event.find({}).then(match => {
+//         if (!match) { return res.sendStatus(401); }
+//         return res.json({ 'match': match })
+//     })
+//         .catch(next);
+// });
 
 //select matches ended
 //Suponemos que el estado del partido es "Playing"
