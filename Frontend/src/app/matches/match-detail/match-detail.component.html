@@ -1,1 +1,8 @@
-<p>(aquí se mostraría el detalle del partido clickeado)</p>
+<div *ngIf="match">
+    <h2>Detalle del partido</h2>
+    <p>Local: {{ match.team1.name }}</p>
+    <p>Visitante: {{ match.team2.name }}</p>
+    <p>Horario: {{ match.date }}</p>
+    <p>Estadio: {{ match.stadium }}</p>
+    
+</div>

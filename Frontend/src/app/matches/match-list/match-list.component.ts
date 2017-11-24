@@ -10,8 +10,11 @@ import { Services } from '../../services';
   styleUrls: ['./match-list.component.css'],
   providers: [Services]
 })
+
 export class MatchListComponent implements OnInit {
+
   private matches = [];
+  selectedMatch: Match;
 
   constructor(private services: Services) {
 
@@ -20,6 +23,10 @@ export class MatchListComponent implements OnInit {
   ngOnInit() {
     this.services.getMatches().subscribe(data => this.matches = data);
     console.log(this.matches);
+  }
+
+  onSelect(match: Match): void {
+    this.selectedMatch = match;
   }
 
 }
