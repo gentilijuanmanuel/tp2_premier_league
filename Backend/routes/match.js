@@ -81,7 +81,7 @@ router.put('/end/:id', (req, res, next) => {
 
     Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, match){
         if(err){
-            res.send("got an error");
+            res.status(500).send(err);
         }
         else{
             match.save((err, match) => {
@@ -100,13 +100,18 @@ router.post('/event/', (req, res, next) => {
     let idEvent = req.params.idEvent;
     Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, match){
         if(err){
-            res.send("got an error");
+            res.status(500).send(err);
         }
         else{
-            res.send(match);                
+            match.save((err, match) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(match);
+                console.log(idEvent);
+            });
         }
     });
-    match.save();
 });
 
 module.exports=router;
