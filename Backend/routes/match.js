@@ -68,9 +68,13 @@ router.post('/new', (req, res, next) => {
         team2: team2
     });
 
-    match.save();
-    res.send("Match submitted \n" + match);
-  });
+    match.save((err, match) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        res.status(200).send("Match submitted \n" + match);
+    });
+});
 
 //End Match
 /*
