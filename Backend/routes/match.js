@@ -23,56 +23,19 @@ router.get('/', (req, res, next)=> {
 
 
 //Deberia funcionar, hay que testear una vez que tengamos el alta de partidos y pueda insertar un registro
-//.findOne([query], [fieldsToReturn], [callback])
 router.get('/:idMatch', (req, res, next) => {
     let idMatch = req.params.idMatch;
     console.log(idMatch);
-    let _match;
     Match.findById(idMatch).populate('event').populate('team1').populate('team2').exec((err, match) => {
         if (err) {
             res.status(500).send(err);
         }
         if (match) {
-            _match = match;
-            //res.status(200).send(match);
+            res.status(200).send(match);
         } else {
             res.status(404).send("No match found with that ID");
         }
-    });
-
-    //Declaro dos variables aca porque no se si teamOne y teamTwo estan 
-    //definidas fuera de su scope
-    let teamOne;
-    let teamTwo;
-    Team.findOne(match.team1, {name: true}, (err, team) => {
-        if(err){
-            res.status(500).send(err);
-        }
-        else{
-            teamOne = team;
-        }
-    });
-    Team.findOne(match.team2, {name: true}, (err, team) => {
-        if(err){
-            res.status(500).send(err);
-        }
-        else{
-            teamTwo = team;
-        }
-    });
-
-    let response = {
-        date: _match.date,
-        result: _match.result,
-        state: _match.state,
-        stadium: _match.stadium,
-        team1: { id: _match.team1, name: teamOne},
-        team2: { id: _match.team2, name: teamTwo},
-        event: _match.event
-    };
-    res.status(200).send(response);
-    
-
+    }); 
 });
 
 
