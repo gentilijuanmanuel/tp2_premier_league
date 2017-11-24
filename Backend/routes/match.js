@@ -76,16 +76,21 @@ router.post('/new', (req, res, next) => {
 /*
  * State: Finished.
  */
-router.get('/end/:id', (req, res, next) => {
+router.put('/end/:id', (req, res, next) => {
     let _id = req.params.id;
 
-    Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, team){
+    Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, match){
         if(err){
             res.send("got an error");
         }
         else{
-            res.send(match);                
-        }
+            match.save((err, match) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(match);
+            });
+        } 
     });
 });
 
@@ -93,7 +98,7 @@ router.get('/end/:id', (req, res, next) => {
 router.post('/event/', (req, res, next) => {
     let idMatch = req.params.idMatch;
     let idEvent = req.params.idEvent;
-    Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, team){
+    Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, match){
         if(err){
             res.send("got an error");
         }
@@ -101,6 +106,7 @@ router.post('/event/', (req, res, next) => {
             res.send(match);                
         }
     });
+    match.save();
 });
 
 module.exports=router;
