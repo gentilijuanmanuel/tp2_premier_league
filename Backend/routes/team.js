@@ -16,8 +16,12 @@ router.post('/', (req, res, next) => {
         points: points,
     });
 
-    team.save();
-    res.send("Team submitted \n" + team);
+    team.save((err, team) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        res.status(200).send("Team submitted \n" + team);
+    });
   });
 
 //Return all teams
@@ -56,10 +60,15 @@ router.put('/:id', (req, res, next) =>{
 
     Team.findOneAndUpdate(query, {$set: {name: name, stadium:stadium, points:points}},{new: true},function(err, team){
         if(err){
-            res.send("got an error");
+            res.status(500).send(err);
         }
         else{
-            res.send(team);                
+            team.save((err, team) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(team);
+            });
         }
     });
 })

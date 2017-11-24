@@ -20,8 +20,12 @@ router.post('/', (req, res, next) => {
         description: description
     });
 
-    event.save();
-    res.send("Event submitted \n" + event);
+    event.save((err, event) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        res.status(200).send("Event submitted \n" + event);
+    });
   });
 
 //Return all events
@@ -60,13 +64,18 @@ router.put('/:id', (req, res, next) =>{
 
     Event.findOneAndUpdate(query, {$set: {type: type, player: player, player2: player2, time: time, description: description}},{new: true},function(err, event){
         if(err){
-            res.send("got an error");
+            res.status(500).send(err);
         }
         else{
-            res.send(event);                
+            event.save((err, event) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(event);
+            });
         }
     });
-})
+});
 
 //Delete one Team
 router.delete('/:id', (req, res, next) =>{

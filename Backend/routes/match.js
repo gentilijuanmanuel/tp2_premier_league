@@ -23,19 +23,56 @@ router.get('/', (req, res, next)=> {
 
 
 //Deberia funcionar, hay que testear una vez que tengamos el alta de partidos y pueda insertar un registro
+//.findOne([query], [fieldsToReturn], [callback])
 router.get('/:idMatch', (req, res, next) => {
     let idMatch = req.params.idMatch;
     console.log(idMatch);
+    let _match;
     Match.findById(idMatch).populate('event').populate('team1').populate('team2').exec((err, match) => {
         if (err) {
             res.status(500).send(err);
         }
         if (match) {
-            res.status(200).send(match);
+            _match = match;
+            //res.status(200).send(match);
         } else {
             res.status(404).send("No match found with that ID");
         }
     });
+
+    //Declaro dos variables aca porque no se si teamOne y teamTwo estan 
+    //definidas fuera de su scope
+    let teamOne;
+    let teamTwo;
+    Team.findOne(match.team1, {name: true}, (err, team) => {
+        if(err){
+            res.status(500).send(err);
+        }
+        else{
+            teamOne = team;
+        }
+    });
+    Team.findOne(match.team2, {name: true}, (err, team) => {
+        if(err){
+            res.status(500).send(err);
+        }
+        else{
+            teamTwo = team;
+        }
+    });
+
+    let response = {
+        date: _match.date,
+        result: _match.result,
+        state: _match.state,
+        stadium: _match.stadium,
+        team1: { id: _match.team1, name: teamOne},
+        team2: { id: _match.team2, name: teamTwo},
+        event: _match.event
+    };
+    res.status(200).send(response);
+    
+
 });
 
 
@@ -77,41 +114,54 @@ router.post('/new', (req, res, next) => {
         team2: team2
     });
 
-    match.save();
-    res.send("Match submitted \n" + match);
-  });
+    match.save((err, match) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        res.status(200).send("Match submitted \n" + match);
+    });
+});
 
 //End Match
 /*
  * State: Finished.
  */
-router.get('/end/:id', (req, res, next) => {
+router.put('/end/:id', (req, res, next) => {
     let _id = req.params.id;
 
-    Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, team){
+    Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, match){
         if(err){
-            res.send("got an error");
+            res.status(500).send(err);
         }
         else{
-            res.send(match);                
-        }
+            match.save((err, match) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(match);
+            });
+        } 
     });
 });
 
 //Add Event
-router.put('/event/', (req, res, next) => {
-    let idMatch = req.body.idMatch;
-    let idEvent = req.body.idEvent;
-    Match.findOneAndUpdate(idMatch, {$push: {"event": idEvent}},{new: true},function(err, team){
+router.post('/event/', (req, res, next) => {
+    let idMatch = req.params.idMatch;
+    let idEvent = req.params.idEvent;
+    Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, match){
         if(err){
-            res.send("got an error " + err);
+            res.status(500).send(err);
         }
         else{
-            res.send(team);                
-            console.log(idEvent);
+            match.save((err, match) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send(match);
+                console.log(idEvent);
+            });
         }
     });
-
 });
 
 module.exports=router;
