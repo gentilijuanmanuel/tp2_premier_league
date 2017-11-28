@@ -21,8 +21,7 @@ export class MatchListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.services.getMatches().subscribe(data => this.matches = data);
-    console.log(this.matches);
+    this.services.getActiveMatches().subscribe(data => this.matches = data);
   }
 
   onSelect(match: Match): void {

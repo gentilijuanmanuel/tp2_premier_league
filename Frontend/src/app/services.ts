@@ -22,9 +22,4 @@ export class Services {
         let url = this.firstPartUrl + "match/active";
         return this.getData(url);
     }
-
-    getMatches() {
-        let url = this.firstPartUrl + "match";
-        return this.getData(url);
-    }
 }
