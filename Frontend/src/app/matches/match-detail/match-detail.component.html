@@ -1,8 +1,25 @@
 <div *ngIf="match">
-    <h2>Detalle del partido</h2>
-    <p>Local: {{ match.team1.name }}</p>
-    <p>Visitante: {{ match.team2.name }}</p>
-    <p>Horario: {{ match.date }}</p>
-    <p>Estadio: {{ match.stadium }}</p>
-    
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Detalle del partido</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>Local</dt>
+                <dd>{{ match.team1.name }}</dd>
+            </dl>
+            <dl>
+                <dt>Visitante</dt>
+                <dd>{{ match.team2.name }}</dd>
+            </dl>
+            <dl>
+                <dt>Fecha</dt>
+                <dd>{{ match.date }}</dd>
+            </dl>
+            <dl>
+                <dt>Estadio</dt>
+                <dd>{{ match.stadium }}</dd>
+            </dl>
+        </div>
+    </div>
 </div>

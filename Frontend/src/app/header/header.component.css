@@ -1,0 +1,15 @@
+.header {
+    background-image: url(https://wallpaperscraft.com/image/ball_football_field_grass_106510_2560x1440.jpg);
+    height: 300px;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  
+  .header h1 {
+    color: white;
+    font-family: serif;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    margin: 0;
+  }
