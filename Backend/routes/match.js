@@ -75,7 +75,7 @@ router.post('/new', (req, res, next) => {
 router.put('/end/:id', (req, res, next) => {
     let _id = req.params.id;
 
-    Match.findOneAndUpdate(_id, {$set: {state: "Finished"}},{new: true},function(err, match){
+    Match.findOneAndUpdate({id: _id}, {$set:{state: "Finished"}},{new: true},function(err, match){
         if(err){
             res.status(500).send(err);
         }
@@ -107,6 +107,24 @@ router.post('/event/', (req, res, next) => {
                 res.status(200).send(match);
                 console.log(idEvent);
             });
+        }
+    });
+});
+
+//Delete Match
+router.delete('/:id', (req, res, next) =>{
+    let id = req.params.id;
+
+    Match.findByIdAndRemove(id, (err, match)=>{
+        if(err){
+            res.status(500).send(err);
+        }
+        else{
+            let response = {
+                message: "Match successfully deleted",
+                id: match._id
+            };
+            res.status(200).send(response);
         }
     });
 });
