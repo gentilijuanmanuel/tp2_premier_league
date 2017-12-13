@@ -24,11 +24,9 @@ router.get('/active', (req, res, next) => {
         .catch(next);
 });
 
-//Lo comento porque lo agarra primero en vez de /active
-
 router.get('/:idMatch', (req, res, next) => {
     let idMatch = req.params.idMatch;
-    console.log(idMatch);
+
     Match.findById(idMatch).populate('event').populate('team1').populate('team2').exec((err, match) => {
         if (err) {
             res.status(500).send(err);
@@ -68,7 +66,7 @@ router.post('/new', (req, res, next) => {
     });
 });
 
-//End Match: parece que no funciona
+
 /*
  * State: Finished.
  */
@@ -91,26 +89,6 @@ router.put('/end/:id', (req, res, next) => {
     //console.log("Match con id " + _id + " ha sido finalizado con éxito.");
 });
 
-//Add Event
-router.post('/event/', (req, res, next) => {
-    let idMatch = req.params.idMatch;
-    let idEvent = req.params.idEvent;
-    Match.findOneAndUpdate(idMatch, {$set: {event: idEvent}},{new: true},function(err, match){
-        if(err){
-            res.status(500).send(err);
-        }
-        else{
-            match.save((err, match) => {
-                if (err) {
-                    res.status(500).send(err);
-                }
-                res.status(200).send(match);
-                console.log(idEvent);
-            });
-        }
-    });
-});
-
 //Delete Match
 router.delete('/:id', (req, res, next) =>{
     let id = req.params.id;
@@ -121,8 +99,7 @@ router.delete('/:id', (req, res, next) =>{
         }
         else{
             let response = {
-                message: "Match successfully deleted",
-                id: match._id
+                message: "Match successfully deleted"
             };
             res.status(200).send(response);
         }

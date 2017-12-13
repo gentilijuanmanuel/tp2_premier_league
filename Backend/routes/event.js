@@ -1,16 +1,19 @@
 var mongoose = require('mongoose');
 var router=require('express').Router();
 var Event = mongoose.model('Event');
+var Match = mongoose.model('Match');
+
 
 var ObjectId = mongoose.Types.ObjectId;
 
 //Insert new event
-router.post('/', (req, res, next) => {
+router.post('/:idMatch', (req, res, next) => {
     let type = req.body.type;
     let player = req.body.player;
     let player2 = req.body.player2;
     let time = req.body.time;
     let description = req.body.description;
+    let idMatch = req.params.idMatch;
 
     var event = new Event({
         type: type,
@@ -24,8 +27,23 @@ router.post('/', (req, res, next) => {
         if (err) {
             res.status(500).send(err);
         }
-        res.status(200).send("Event submitted \n" + event);
     });
+
+    Match.findOneAndUpdate(idMatch, { $set: { event: event._id } }, { new: true }, function (err, match) {
+        if (err) {
+            res.status(500).send(err);
+        }
+        else {
+            match.save((err, match) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                res.status(200).send("Event submitted and added to match\n" + event + "\n" + match);
+            });
+        }
+    });
+
+
   });
 
 //Return all events
@@ -77,7 +95,7 @@ router.put('/:id', (req, res, next) =>{
     });
 });
 
-//Delete one Team
+//Delete one Event
 router.delete('/:id', (req, res, next) =>{
     let id = req.params.id;
 
