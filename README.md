@@ -1,9 +1,11 @@
-TTADS - TP2 - Front-end y Back-end con Express y Angular 4.
+#TTADS - TP2
+
+Premier League viewer - Front-end y Back-end con Express y Angular 4.
 
 El objetivo del trabajo es crear un front-end y back-end para la web de eventos deportivos Premier League
 utilizando Angular 4 y Express.js .
 
-Integrantes:
+#Integrantes:
 
 - Bianchi, Martín - 41941
 - Gentili, Juan Manuel - 41885
