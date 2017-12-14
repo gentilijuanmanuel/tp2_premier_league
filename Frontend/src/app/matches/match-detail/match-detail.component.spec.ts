@@ -23,10 +23,3 @@ describe('MatchDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-/* arreglar el metodo agregar evento con un push o sino find, agregar el evento al arreglo y luego
-hacer un update definiendo otra vez el atributo events
-arreglar el tema del sincronismo con un then.(promise) o meter el codigo dentro del callback
-despues del manejp de error
-
-*/

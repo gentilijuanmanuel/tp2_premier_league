@@ -27,22 +27,25 @@ router.post('/:idMatch', (req, res, next) => {
         if (err) {
             res.status(500).send(err);
         }
-    });
-
-    Match.findOneAndUpdate(idMatch, { $set: { event: event._id } }, { new: true }, function (err, match) {
-        if (err) {
-            res.status(500).send(err);
-        }
-        else {
-            match.save((err, match) => {
-                if (err) {
-                    res.status(500).send(err);
-                }
-                res.status(200).send("Event submitted and added to match\n" + event + "\n" + match);
-            });
-        }
-    });
-
+    }).then(
+        Match.findOneAndUpdate({_id: idMatch}, { $push: { event: event._id } }, { new: true }, function (err, match) {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                match.save((err, match) => {
+                    if (err) {
+                        res.status(500).send(err);
+                    }
+                    res.status(200).send("Event submitted and added to match\n" + event + "\n" + match);
+                });
+            }
+        })
+    );
+    /*
+    * se agrego un then para que el save() sea un promise y se ejecuten las dos funciones
+    * de forma secuencial, corregimos el idMatch por _id.
+    */
 
   });
 
